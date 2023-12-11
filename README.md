@@ -16,7 +16,7 @@ This repository is a collection of my solutions to the Advent of Code 2023 chall
 puzzle is a little gift-wrapped problem that I've gleefully unwrapped and solved using the power of 
 code. From cozy arrays to intricate algorithms, I've faced them all like a true coding elf.
 
-## What did I learn doing AoC 2023?
+## 🤔 What did I learn doing AoC 2023?
 #### 🧩 Problem Solving:
 I don't just solve problems; I decorate them with creativity and sprinkle a bit of magic (read: 
 elegant code) to make them shine.
