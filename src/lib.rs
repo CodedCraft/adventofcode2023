@@ -1,23 +1,26 @@
 pub use anyhow::Result;
-use std::{env, fs};
+use std::{env, fs, path::PathBuf};
 
 pub enum Part {
     Part1,
     Part2,
     Both,
 }
+
 pub enum Input {
     Input,
     Sample,
 }
 
 pub fn parse(file: &str) -> Result<Vec<String>> {
-    let args: Vec<String> = env::args().collect();
-    let mut path = env::current_dir()?.join("src/");
+    let mut path: PathBuf = env::current_exe()?
+        .to_str()
+        .unwrap()
+        .replace("/target/debug", "/src")
+        .into();
+    
+    path = path.join(file);
 
-    if let Some(day) = args[0].split('/').last() {
-        path = path.join(day).join(file);
-    }
 
     let input = fs::read_to_string(path)?;
     let lines: Vec<String> = input.lines().map(|s| s.to_string()).collect();
