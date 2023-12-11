@@ -30,10 +30,9 @@ pub fn run() -> Part {
         match args[1].as_str() {
             "part1" => return Part::Part1,
             "part2" => return Part::Part2,
-                _ => Part::Both,
+            _ => Part::Both,
         }
-    }
-    else {
+    } else {
         return Part::Both;
     }
 }
@@ -44,10 +43,35 @@ pub fn input() -> Input {
         match args[2].as_str() {
             "sample" => return Input::Sample,
             "input" => return Input::Input,
-                _ => return Input::Input,
+            _ => return Input::Input,
         }
-    }
-    else {
+    } else {
         return Input::Input;
     }
+}
+
+#[macro_export]
+macro_rules! main {
+    () => {
+        fn main() -> Result<()> {
+            let file;
+            match input() {
+                Input::Sample => file = "sample.txt",
+                Input::Input => file = "input.txt",
+            }
+
+            let input = parse(file)?;
+
+            match run() {
+                Part::Both => {
+                    part1(input.clone())?;
+                    part2(input)?;
+                }
+                Part::Part1 => part1(input)?,
+                Part::Part2 => part2(input)?,
+            };
+
+            Ok(())
+        }
+    };
 }
