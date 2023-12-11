@@ -7,20 +7,14 @@ pub enum Part {
     Both,
 }
 
-pub enum Input {
-    Input,
-    Sample,
-}
-
-pub fn parse(file: &str) -> Result<Vec<String>> {
+pub fn parse(file: String) -> Result<Vec<String>> {
     let mut path: PathBuf = env::current_exe()?
         .to_str()
         .unwrap()
         .replace("/target/debug", "/src")
         .into();
-    
-    path = path.join(file);
 
+    path = path.join(file);
 
     let input = fs::read_to_string(path)?;
     let lines: Vec<String> = input.lines().map(|s| s.to_string()).collect();
@@ -40,16 +34,11 @@ pub fn run() -> Part {
     }
 }
 
-pub fn input() -> Input {
+pub fn input() -> String {
     let args: Vec<String> = env::args().collect();
-    if args.len() > 2 {
-        match args[2].as_str() {
-            "sample" => return Input::Sample,
-            "input" => return Input::Input,
-            _ => return Input::Input,
-        }
-    } else {
-        return Input::Input;
+    match args.get(2) {
+        Some(sample) => return sample.clone() + ".txt",
+        None => "input.txt".to_string(),
     }
 }
 
@@ -57,11 +46,7 @@ pub fn input() -> Input {
 macro_rules! main {
     () => {
         fn main() -> Result<()> {
-            let file;
-            match input() {
-                Input::Sample => file = "sample.txt",
-                Input::Input => file = "input.txt",
-            }
+            let file = input();
 
             let input = parse(file)?;
 
